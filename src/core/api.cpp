@@ -69,12 +69,8 @@
 #include "materials/plastic.h"
 #include "media/grid.h"
 #include "media/homogeneous.h"
-#include "samplers/halton.h"
-#include "samplers/maxmin.h"
 #include "samplers/random.h"
-#include "samplers/sobol.h"
 #include "samplers/stratified.h"
-#include "samplers/zerotwosequence.h"
 #include "shapes/cone.h"
 #include "shapes/curve.h"
 #include "shapes/cylinder.h"
@@ -705,15 +701,7 @@ namespace pbrt {
 
   std::shared_ptr<Sampler> MakeSampler(const std::string &name, const ParamSet &paramSet, const Film *film) {
     Sampler *sampler = nullptr;
-    if (name == "lowdiscrepancy" || name == "02sequence")
-      sampler = CreateZeroTwoSequenceSampler(paramSet);
-    else if (name == "maxmindist")
-      sampler = CreateMaxMinDistSampler(paramSet);
-    else if (name == "halton")
-      sampler = CreateHaltonSampler(paramSet, film->GetSampleBounds());
-    else if (name == "sobol")
-      sampler = CreateSobolSampler(paramSet, film->GetSampleBounds());
-    else if (name == "random")
+    if (name == "random")
       sampler = CreateRandomSampler(paramSet);
     else if (name == "stratified")
       sampler = CreateStratifiedSampler(paramSet);
