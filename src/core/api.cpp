@@ -71,16 +71,7 @@
 #include "media/homogeneous.h"
 #include "samplers/random.h"
 #include "samplers/stratified.h"
-#include "shapes/cone.h"
-#include "shapes/curve.h"
-#include "shapes/cylinder.h"
-#include "shapes/disk.h"
-#include "shapes/heightfield.h"
-#include "shapes/hyperboloid.h"
 #include "shapes/loopsubdiv.h"
-#include "shapes/nurbs.h"
-#include "shapes/paraboloid.h"
-#include "shapes/plymesh.h"
 #include "shapes/sphere.h"
 #include "shapes/triangle.h"
 #include "textures/bilerp.h"
@@ -399,21 +390,9 @@ namespace pbrt {
     std::shared_ptr<Shape> s;
     if (name == "sphere") s = CreateSphereShape(object2world, world2object, reverseOrientation, paramSet);
     // Create remaining single _Shape_ types
-    else if (name == "cylinder")
-      s = CreateCylinderShape(object2world, world2object, reverseOrientation, paramSet);
-    else if (name == "disk")
-      s = CreateDiskShape(object2world, world2object, reverseOrientation, paramSet);
-    else if (name == "cone")
-      s = CreateConeShape(object2world, world2object, reverseOrientation, paramSet);
-    else if (name == "paraboloid")
-      s = CreateParaboloidShape(object2world, world2object, reverseOrientation, paramSet);
-    else if (name == "hyperboloid")
-      s = CreateHyperboloidShape(object2world, world2object, reverseOrientation, paramSet);
     if (s != nullptr) shapes.push_back(s);
 
     // Create multiple-_Shape_ types
-    else if (name == "curve")
-      shapes = CreateCurveShape(object2world, world2object, reverseOrientation, paramSet);
     else if (name == "trianglemesh") {
       if (PbrtOptions.toPly) {
         int nvi;
@@ -469,14 +448,8 @@ namespace pbrt {
       } else
         shapes = CreateTriangleMeshShape(object2world, world2object, reverseOrientation, paramSet,
                                          &*graphicsState.floatTextures);
-    } else if (name == "plymesh")
-      shapes = CreatePLYMesh(object2world, world2object, reverseOrientation, paramSet, &*graphicsState.floatTextures);
-    else if (name == "heightfield")
-      shapes = CreateHeightfield(object2world, world2object, reverseOrientation, paramSet);
-    else if (name == "loopsubdiv")
+    } else if (name == "loopsubdiv")
       shapes = CreateLoopSubdiv(object2world, world2object, reverseOrientation, paramSet);
-    else if (name == "nurbs")
-      shapes = CreateNURBS(object2world, world2object, reverseOrientation, paramSet);
     else
       Warning("Shape \"%s\" unknown.", name.c_str());
     return shapes;
