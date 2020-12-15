@@ -1,0 +1,7 @@
+{
+	"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+	"cmake.debugConfig": {
+		"args": ["../scenes/killeroo-simple.pbrt"],
+	},
+	"cmake.buildDirectory": "${workspaceFolder}/build-debug"
+}
