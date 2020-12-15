@@ -54,21 +54,13 @@
 #include "filters/mitchell.h"
 #include "filters/sinc.h"
 #include "filters/triangle.h"
-#include "integrators/ao.h"
 #include "integrators/bdpt.h"
-#include "integrators/directlighting.h"
 #include "integrators/mlt.h"
 #include "integrators/path.h"
-#include "integrators/sppm.h"
-#include "integrators/volpath.h"
 #include "integrators/whitted.h"
 #include "lights/diffuse.h"
-#include "lights/distant.h"
-#include "lights/goniometric.h"
 #include "lights/infinite.h"
 #include "lights/point.h"
-#include "lights/projection.h"
-#include "lights/spot.h"
 #include "materials/disney.h"
 #include "materials/fourier.h"
 #include "materials/glass.h"
@@ -687,14 +679,6 @@ namespace pbrt {
     std::shared_ptr<Light> light;
     if (name == "point")
       light = CreatePointLight(light2world, mediumInterface.outside, paramSet);
-    else if (name == "spot")
-      light = CreateSpotLight(light2world, mediumInterface.outside, paramSet);
-    else if (name == "goniometric")
-      light = CreateGoniometricLight(light2world, mediumInterface.outside, paramSet);
-    else if (name == "projection")
-      light = CreateProjectionLight(light2world, mediumInterface.outside, paramSet);
-    else if (name == "distant")
-      light = CreateDistantLight(light2world, paramSet);
     else if (name == "infinite" || name == "exinfinite")
       light = CreateInfiniteLight(light2world, paramSet);
     else
@@ -1510,20 +1494,12 @@ namespace pbrt {
     Integrator *integrator = nullptr;
     if (IntegratorName == "whitted")
       integrator = CreateWhittedIntegrator(IntegratorParams, sampler, camera);
-    else if (IntegratorName == "directlighting")
-      integrator = CreateDirectLightingIntegrator(IntegratorParams, sampler, camera);
     else if (IntegratorName == "path")
       integrator = CreatePathIntegrator(IntegratorParams, sampler, camera);
-    else if (IntegratorName == "volpath")
-      integrator = CreateVolPathIntegrator(IntegratorParams, sampler, camera);
     else if (IntegratorName == "bdpt") {
       integrator = CreateBDPTIntegrator(IntegratorParams, sampler, camera);
     } else if (IntegratorName == "mlt") {
       integrator = CreateMLTIntegrator(IntegratorParams, camera);
-    } else if (IntegratorName == "ambientocclusion") {
-      integrator = CreateAOIntegrator(IntegratorParams, sampler, camera);
-    } else if (IntegratorName == "sppm") {
-      integrator = CreateSPPMIntegrator(IntegratorParams, camera);
     } else {
       Error("Integrator \"%s\" unknown.", IntegratorName.c_str());
       return nullptr;
