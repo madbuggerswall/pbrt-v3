@@ -39,30 +39,28 @@
 #define PBRT_MATERIALS_MATTE_H
 
 // materials/matte.h*
-#include "pbrt.h"
 #include "material.h"
+#include "pbrt.h"
 
 namespace pbrt {
 
-// MatteMaterial Declarations
-class MatteMaterial : public Material {
-  public:
+  // MatteMaterial Declarations
+  class MatteMaterial : public Material {
+   public:
     // MatteMaterial Public Methods
-    MatteMaterial(const std::shared_ptr<Texture<Spectrum>> &Kd,
-                  const std::shared_ptr<Texture<Float>> &sigma,
-                  const std::shared_ptr<Texture<Float>> &bumpMap)
-        : Kd(Kd), sigma(sigma), bumpMap(bumpMap) {}
-    void ComputeScatteringFunctions(SurfaceInteraction *si, MemoryArena &arena,
-                                    TransportMode mode,
+    MatteMaterial(const std::shared_ptr<Texture<Spectrum>> &Kd, const std::shared_ptr<Texture<Float>> &sigma) :
+        Kd(Kd),
+        sigma(sigma) {}
+    void ComputeScatteringFunctions(SurfaceInteraction *si, MemoryArena &arena, TransportMode mode,
                                     bool allowMultipleLobes) const;
 
-  private:
+   private:
     // MatteMaterial Private Data
     std::shared_ptr<Texture<Spectrum>> Kd;
-    std::shared_ptr<Texture<Float>> sigma, bumpMap;
-};
+    std::shared_ptr<Texture<Float>> sigma;
+  };
 
-MatteMaterial *CreateMatteMaterial(const TextureParams &mp);
+  MatteMaterial *CreateMatteMaterial(const TextureParams &mp);
 
 }  // namespace pbrt
 

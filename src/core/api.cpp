@@ -65,7 +65,6 @@
 #include "materials/matte.h"
 #include "materials/metal.h"
 #include "materials/mirror.h"
-#include "materials/mixmat.h"
 #include "materials/plastic.h"
 #include "media/grid.h"
 #include "media/homogeneous.h"
@@ -469,24 +468,7 @@ namespace pbrt {
       material = CreateGlassMaterial(mp);
     else if (name == "mirror")
       material = CreateMirrorMaterial(mp);
-    else if (name == "mix") {
-      std::string m1 = mp.FindString("namedmaterial1", "");
-      std::string m2 = mp.FindString("namedmaterial2", "");
-      std::shared_ptr<Material> mat1, mat2;
-      if (graphicsState.namedMaterials->find(m1) == graphicsState.namedMaterials->end()) {
-        Error("Named material \"%s\" undefined.  Using \"matte\"", m1.c_str());
-        mat1 = MakeMaterial("matte", mp);
-      } else
-        mat1 = (*graphicsState.namedMaterials)[m1]->material;
-
-      if (graphicsState.namedMaterials->find(m2) == graphicsState.namedMaterials->end()) {
-        Error("Named material \"%s\" undefined.  Using \"matte\"", m2.c_str());
-        mat2 = MakeMaterial("matte", mp);
-      } else
-        mat2 = (*graphicsState.namedMaterials)[m2]->material;
-
-      material = CreateMixMaterial(mp, mat1, mat2);
-    } else if (name == "metal")
+    else if (name == "metal")
       material = CreateMetalMaterial(mp);
     else {
       Warning("Material \"%s\" unknown. Using \"matte\".", name.c_str());

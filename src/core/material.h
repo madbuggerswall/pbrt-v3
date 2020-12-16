@@ -39,26 +39,22 @@
 #define PBRT_CORE_MATERIAL_H
 
 // core/material.h*
-#include "pbrt.h"
 #include "memory.h"
+#include "pbrt.h"
 
 namespace pbrt {
 
-// TransportMode Declarations
-enum class TransportMode { Radiance, Importance };
+  // TransportMode Declarations
+  enum class TransportMode { Radiance, Importance };
 
-// Material Declarations
-class Material {
-  public:
+  // Material Declarations
+  class Material {
+   public:
     // Material Interface
-    virtual void ComputeScatteringFunctions(SurfaceInteraction *si,
-                                            MemoryArena &arena,
-                                            TransportMode mode,
+    virtual void ComputeScatteringFunctions(SurfaceInteraction *si, MemoryArena &arena, TransportMode mode,
                                             bool allowMultipleLobes) const = 0;
     virtual ~Material();
-    static void Bump(const std::shared_ptr<Texture<Float>> &d,
-                     SurfaceInteraction *si);
-};
+  };
 
 }  // namespace pbrt
 
